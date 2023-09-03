@@ -28,6 +28,8 @@ app.put('/canciones/:id', (req, res) => {
   let data = JSON.parse(fs.readFileSync('repertorio.json', 'utf-8'));
   let id = req.params.id;
   let cancion = data.find(cancion => cancion.id == id);
+  if (!cancion) return res.status(404).send('No se encontró la canción');
+
   cancion.titulo = req.body.titulo;
   cancion.artista = req.body.artista;
   cancion.tono = req.body.tono;
@@ -39,6 +41,8 @@ app.delete('/canciones/:id', (req, res) => {
   let data = JSON.parse(fs.readFileSync('repertorio.json', 'utf-8'));
   let id = req.params.id;
   let cancion = data.find(cancion => cancion.id == id);
+  if (!cancion) return res.status(404).send('No se encontró la canción');
+
   let index = data.indexOf(cancion);
   data.splice(index, 1);
   fs.writeFileSync('repertorio.json', JSON.stringify(data), 'utf-8');
